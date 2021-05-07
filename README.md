@@ -104,10 +104,6 @@ let carousel = new ExampleCarouselLibrary('#myCarousel');
 let handler = createDragHandler(carousel.viewport as HTMLElement);
 let paginationDistance = carousel.width() / 3;
 
-handler.on('dragstart' (e: CustomEvent<DragGesture>) => {
-	dragging = true;
-});
-
 handler.on('drag' (e: CustomEvent<DragGesture>) => {
 	let { x } = e.details.distance;
 	carousel.activeSlide.style.transform = `translate3d(${x}, 0, 0)`;
