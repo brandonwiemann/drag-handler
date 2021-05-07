@@ -90,18 +90,9 @@ import { createDragHandler } from 'drag-handler'
 let draggable = document.getElementById('myDraggableElement');
 let handler = createDragHandler(draggable);
 
-
-handler.on('dragstart' (e: CustomEvent<DragGesture>) => {
-	dragging = true;
-});
-
 handler.on('drag' (e: CustomEvent<DragGesture>) => {
 	let { x, y } = e.details.distance;
 	draggable.style.transform = `translate3d(${x}, ${y}, 0)`;
-});
-
-handler.on('dragend' (e: CustomEvent<DragGesture>) => {
-	dragging = false;
 });
 ```
 
