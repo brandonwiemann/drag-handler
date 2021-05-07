@@ -36,7 +36,7 @@ handler.on('dragend' (e: CustomEvent<DragGesture>) => {
 
 ## Handler Event Names
 |Name|Description
-|--|--|--|
+|--|--|
 |`"dragstart"`| Triggered on the initial touchstart/mousedown event
 |`"drag"`| Triggered between dragstart and dragend when the pointer position moves
 |`"dragend"`| Triggered on the next touchend/mouseup event, when the drag is finished
