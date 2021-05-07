@@ -62,7 +62,7 @@ handler.on('drag' (e: CustomEvent<DragGesture>) => {
 |Property|Type|Description
 |--|--|--|
 |x| string| The horizontal direction as a string "left" or "right"
-|y| string| The vertical direction as a string "up" or "down"v
+|y| string| The vertical direction as a string "up" or "down"
 
 ### DragGesture.distance
 |Property|Type|Description
