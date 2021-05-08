@@ -92,7 +92,7 @@ let handler = createDragHandler(draggable);
 
 handler.on('drag' (e: CustomEvent<DragGesture>) => {
 	let { x, y } = e.details.distance;
-	draggable.style.transform = `translate3d(${x}, ${y}, 0)`;
+	draggable.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 });
 ```
 
@@ -106,7 +106,7 @@ let paginationDistance = carousel.width() / 3;
 
 handler.on('drag' (e: CustomEvent<DragGesture>) => {
 	let { x } = e.details.distance;
-	carousel.activeSlide.style.transform = `translate3d(${x}, 0, 0)`;
+	carousel.activeSlide.style.transform = `translate3d(${x}px, 0, 0)`;
 });
 
 handler.on('dragend' (e: CustomEvent<DragGesture>) => {
