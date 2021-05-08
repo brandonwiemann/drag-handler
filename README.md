@@ -110,7 +110,7 @@ handler.on('drag' (e: CustomEvent<DragGesture>) => {
 });
 
 handler.on('dragend' (e: CustomEvent<DragGesture>) => {
-	if(e.details.distance.x > paginationDistance) {
+	if(Math.abs(e.details.distance.x) > paginationDistance) {
 		let direction = e.details.direction.x;
 		if(direction === 'left') carousel.slideNext();
 		if(direction === 'right') carousel.slidePrevious();
