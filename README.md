@@ -73,8 +73,8 @@ handler.on('drag' (e: CustomEvent<DragGesture>) => {
 ### DragGesture.position
 |Property|Type|Description
 |--|--|--|
-|x| number| The touch/mouse event pageX property
-|y| number| The touch/mouse event pageY property
+|x| number| The horizontal coordinate of the touch/mouse event
+|y| number| The vertical coordinate of the touch/mouse event
 
 ### DragGesture.velocity
 |Property|Type|Description
