@@ -6,7 +6,9 @@ Inspired by [Matt Hinchliffe](https://www.matthinchliffe.dev/2015/02/16/high-per
 
 ## Installation
 
-TODO:
+```
+npm i drag-handler --save
+```
 
 ## Usage
 ```typescript

@@ -1,6 +1,6 @@
 {
   "name": "drag-handler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Performant mouse/touch event wrapper for handling drag and swipe interactions",
   "main": "./dist/drag-handler.min.js",
   "scripts": {
