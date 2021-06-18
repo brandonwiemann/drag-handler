@@ -1,7 +1,7 @@
 
 # Drag Handler
 
-A tiny (1kb gzipped), high-performance, zero-dependency mouse/touch event wrapper for handling drag and swipe interactions. Useful for creating drag and drop interactions or detecting swipes on a touch device.
+A tiny (1kb gzipped), high-performance, zero-dependency mouse/touch event wrapper for handling drag interactions. Useful for creating drag and drop interactions or detecting swipes on a touch device.
 Inspired by [Matt Hinchliffe](https://www.matthinchliffe.dev/2015/02/16/high-performance-touch-interactions.html).
 
 ## Installation
@@ -12,9 +12,13 @@ TODO:
 ```typescript
 import { createDragHandler } from 'drag-handler'
 
-let draggable = document.getElementById('myDraggableElement');
-let handler = createDragHandler(draggable);
+// Get a target element
+let targetElement = document.getElementById('hasDragEvents');
 
+// Create the handler by passing the element to createDragHandler
+let handler = createDragHandler(targetElement);
+
+// Attach event listeners
 handler.on('dragstart' (e: CustomEvent<DragGesture>) => {
 	// Do something at the start of the drag
 });
@@ -28,25 +32,26 @@ handler.on('dragend' (e: CustomEvent<DragGesture>) => {
 });
 ```
 
-## Handler Methods
+
+### Handler.on Arguments
 |Name|Type|Description
 |--|--|--|
 |eventName| `string`| The event name to listen for
 |callback| `function`| The event listener callback function
 
-## Handler Event Names
+### Handler Event Names
 |Name|Description
 |--|--|
 |`"dragstart"`| Triggered on the initial touchstart/mousedown event
 |`"drag"`| Triggered between dragstart and dragend when the pointer position moves
 |`"dragend"`| Triggered on the next touchend/mouseup event, when the drag is finished
 
-## Handler Event Details
+### Handler Event Details
 Each handler event will include a `DragGesture` object as the event details. This object contains several pieces of information about the drag event.
 
 ```typescript
 handler.on('drag' (e: CustomEvent<DragGesture>) => {
-	let { distance, direction, position, timeStamp,velocity } = e.details;
+	let { distance, direction, position, timeStamp, velocity } = e.details;
 });
 ```
 ### DragGesture

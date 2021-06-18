@@ -2,14 +2,14 @@
 // https://www.matthinchliffe.dev/2015/02/16/high-performance-touch-interactions.html
 
 export function createDragHandler(el: HTMLElement): DragHandler {
-    let animationFrame: any = null;
-    let dimensions: any = null;
+    let animationFrame: number | null = null;
+    let dimensions: Dimensions | null = null;
     let dragInterval = 16;
     let element: HTMLElement | null = el;
     let eventTarget: EventTarget = new EventTarget();
     let firstGesture: DragGesture | null = null;
     let lastGesture: DragGesture | null = null;
-    let offset: { left: number, top: number } | null = null;
+    let offset: Offset | null = null;
 
     /* Public
     ============================================*/
@@ -54,15 +54,8 @@ export function createDragHandler(el: HTMLElement): DragHandler {
             height: position.height
         };
 
-        firstGesture = {
-            position: { x: pointer.pageX, y: pointer.pageY },
-            timeStamp: e.timeStamp
-        };
-
-        lastGesture = {
-            position: { x: pointer.pageX, y: pointer.pageY },
-            timeStamp: e.timeStamp
-        };
+        firstGesture = createNewGesture(e);
+        lastGesture = createNewGesture(e);
 
         let options = { passive: false, capture: false };
         window.addEventListener('mousemove', dragMove, options);
@@ -77,7 +70,7 @@ export function createDragHandler(el: HTMLElement): DragHandler {
         if(!offset || !lastGesture) return;
 
         if ((e.timeStamp - lastGesture.timeStamp) > dragInterval) {
-            lastGesture = createGesture(e);
+            lastGesture = createNewGesture(e, firstGesture, lastGesture);
         }
 
         let pointer = e.touches ? e.touches[0] : e as MouseEvent;
@@ -129,25 +122,6 @@ export function createDragHandler(el: HTMLElement): DragHandler {
         window.removeEventListener('touchend', dragEnd, false);
     };
 
-    function createGesture(e: TouchOrMouseEvent): DragGesture {
-        let pointer = e.touches ? e.touches[0] : e as MouseEvent;
-        let newGesture: DragGesture = {
-            position: { x: pointer.pageX, y: pointer.pageY },
-            timeStamp: e.timeStamp
-        };
-
-        if(!lastGesture) return newGesture;
-
-        newGesture.velocity = calculateDragVelocity(lastGesture, newGesture);
-        newGesture.direction = calculateDragDirection(lastGesture, newGesture);
-
-        if(!firstGesture) return newGesture;
-
-        newGesture.distance = calculateDragDistance(firstGesture, newGesture);
-
-        return newGesture;
-    };
-
     function dispatchGestureEvent(eventName: DragHandlerEvent, detail: DragGesture | null): void {
         eventTarget.dispatchEvent(new CustomEvent<DragGesture>(eventName, {
             detail: detail || undefined
@@ -179,7 +153,7 @@ export function createDragHandler(el: HTMLElement): DragHandler {
 /**
  * Calculates the velocity of drag between two gestures
  */
-export function calculateDragVelocity(start: DragGesture, end: DragGesture): DragVector {
+export function calculateDragVelocity(start: DragGesture, end: DragGesture): DragVelocity {
     let deltaTime = end.timeStamp - start.timeStamp;
     let ratioX = (100 / window.innerWidth) * (start.position.x - end.position.x);
     let ratioY = (100 / window.innerHeight) * (start.position.y - end.position.y);
@@ -193,9 +167,29 @@ export function calculateDragVelocity(start: DragGesture, end: DragGesture): Dra
 /**
  * Calculates the distance between two drag gestures
  */
-export function calculateDragDistance(start: DragGesture, end: DragGesture): DragVector {
+export function calculateDragDistance(start: DragGesture, end: DragGesture): DragDistance {
     return {
         x: end.position.x - start.position.x,
         y: end.position.y - start.position.y
     };
+}
+
+function createNewGesture(e: TouchOrMouseEvent, firstGesture?: DragGesture, lastGesture?: DragGesture): DragGesture {
+    let pointer = e.touches ? e.touches[0] : e as MouseEvent;
+    let newGesture: DragGesture = {
+        position: { x: pointer.pageX, y: pointer.pageY },
+        timeStamp: e.timeStamp,
+        direction: { x: null, y: null },
+        distance: { x: 0, y: 0 },
+        velocity: { x: 0, y: 0 }
+    }
+
+    if(!lastGesture) return newGesture;
+    newGesture.velocity = calculateDragVelocity(lastGesture, newGesture);
+    newGesture.direction = calculateDragDirection(lastGesture, newGesture);
+
+    if(!firstGesture) return newGesture;
+    newGesture.distance = calculateDragDistance(firstGesture, newGesture);
+
+    return newGesture;
 }
