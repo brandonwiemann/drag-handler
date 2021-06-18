@@ -1,6 +1,7 @@
 // Inspired by Matt Hinchliffe
 // https://www.matthinchliffe.dev/2015/02/16/high-performance-touch-interactions.html
 
+
 export function createDragHandler(el: HTMLElement): DragHandler {
     let animationFrame: number | null = null;
     let dimensions: Dimensions | null = null;
@@ -14,7 +15,8 @@ export function createDragHandler(el: HTMLElement): DragHandler {
     /* Public
     ============================================*/
 
-    function on(eventType: DragHandlerEvent, fn: (event: CustomEvent<DragGesture>) => any): void {
+    function on(eventType: DragHandlerEvent,
+        fn: (event: CustomEvent<DragGesture>) => any): void {
         eventTarget.addEventListener(eventType, fn as EventListener);
     };
 
