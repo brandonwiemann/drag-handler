@@ -7,9 +7,11 @@ module.exports = {
 		filename: "drag-handler.min.js",
 		path: path.resolve(__dirname, "dist"),
 		library: {
+			globalObject: 'this',
 			name: 'dragHandler',
 			type: 'umd'
-		}
+		},
+
 	},
 	module: {
 		rules: [
