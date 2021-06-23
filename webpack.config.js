@@ -5,9 +5,9 @@ module.exports = {
 	mode: 'production',
 	output: {
 		filename: "drag-handler.min.js",
+		globalObject: 'this',
 		path: path.resolve(__dirname, "dist"),
 		library: {
-			globalObject: 'this',
 			name: 'dragHandler',
 			type: 'umd'
 		},
