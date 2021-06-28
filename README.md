@@ -61,7 +61,8 @@ handler.on('drag' (e: CustomEvent<DragGesture>) => {
 |--|--|--|
 |direction| object|The direction of the drag from the previous gesture
 |distance| object|The horizontal and vertical distance from the first gesture
-|position| object|The position of the drag event relative to the window
+|elementPoint| object| The position of the drag event relative to the element
+|windowPoint| object| The position of the drag event relative to the window
 |timeStamp| number| The event timestamp in milliseconds
 |velocity| object| The velocity of the drag from the previous gesture
 
@@ -77,11 +78,17 @@ handler.on('drag' (e: CustomEvent<DragGesture>) => {
 |x| number| The horizontal distance from the first event in px
 |y| number| The vertical distance from the first event in px
 
-### DragGesture.position
+### DragGesture.elementPoint
 |Property|Type|Description
 |--|--|--|
-|x| number| The horizontal coordinate of the touch/mouse event
-|y| number| The vertical coordinate of the touch/mouse event
+|x| number| The horizontal coordinate of the touch/mouse event relative to the element
+|y| number| The vertical coordinate of the touch/mouse event relative to the element
+
+### DragGesture.windowPoint
+|Property|Type|Description
+|--|--|--|
+|x| number| The horizontal coordinate of the touch/mouse event relative to the page
+|y| number| The vertical coordinate of the touch/mouse event relative to the page
 
 ### DragGesture.velocity
 |Property|Type|Description

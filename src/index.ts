@@ -2,14 +2,14 @@
 // https://www.matthinchliffe.dev/2015/02/16/high-performance-touch-interactions.html
 
 import {
-    DragHandler,
-    DragGesture,
-    DragHandlerEvent,
-    TouchOrMouseEvent,
     DragDirection,
+    DragDistance,
+    DragGesture,
+    DragHandler,
+    DragHandlerEvent,
     DragVelocity,
-    DragDistance
-} from "drag-handler";
+    TouchOrMouseEvent
+} from 'drag-handler';
 
 export function createDragHandler(el: HTMLElement): DragHandler {
     let animationFrame: number | null = null;
@@ -51,6 +51,7 @@ export function createDragHandler(el: HTMLElement): DragHandler {
     function dragStart(e: TouchOrMouseEvent): void {
         if (!element || (e.touches && e.touches.length > 1)) return;
         dimensions = element.getBoundingClientRect();
+        console.log(dimensions);
         firstGesture = createNewGesture(e, dimensions);
         lastGesture = createNewGesture(e, dimensions);
 
@@ -120,7 +121,7 @@ export function createDragHandler(el: HTMLElement): DragHandler {
 /**
  * Calculates the direction between two drag gestures
  */
- export function calculateDragDirection(start: DragGesture, end: DragGesture): DragDirection {
+export function calculateDragDirection(start: DragGesture, end: DragGesture): DragDirection {
     let diffX = start.windowPoint.x - end.windowPoint.x;
     let diffY = start.windowPoint.y - end.windowPoint.y;
 
@@ -157,13 +158,13 @@ export function calculateDragDistance(start: DragGesture, end: DragGesture): Dra
 function createNewGesture(e: TouchOrMouseEvent, dimensions: DOMRect, firstGesture?: DragGesture, lastGesture?: DragGesture): DragGesture {
     let pointer = getPointer(e);
     let newGesture: DragGesture = {
-        elementPoint: { x: pointer.pageX - dimensions.x, y: pointer.pageY - dimensions.y },
+        elementPoint: { x: pointer.clientX - dimensions.left, y: pointer.clientY - dimensions.top },
         windowPoint: { x: pointer.pageX, y: pointer.pageY },
         timeStamp: e.timeStamp,
         direction: { x: null, y: null },
         distance: { x: 0, y: 0 },
         velocity: { x: 0, y: 0 }
-    }
+    };
 
     if(!lastGesture) return newGesture;
     newGesture.velocity = calculateDragVelocity(lastGesture, newGesture);
